@@ -4,13 +4,13 @@ const conversationModel = new mongoose.Schema(
   {
     participants: [
       {
-        types: mongoose.Types.ObjectId,
-        ref: "Use",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
     messages: [
       {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Message",
       },
     ],
