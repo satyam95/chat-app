@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 
 // routes
-app.use("/api/v1/user", userRoute); // http://localhost:8080/api/v1/user
+app.use("/api/v1/user", userRoute);
 
 app.listen(PORT, () => {
   connectDB();
