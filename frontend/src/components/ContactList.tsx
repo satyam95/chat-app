@@ -3,39 +3,8 @@ import { Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 import ContactCard from "./ContactCard";
-
-const MOCK_CONTACTS: Contact[] = [
-  {
-    id: "1",
-    name: "Alice Johnson",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100",
-    lastMessage: "Hey, how are you?",
-    lastMessageTime: "10:30 AM",
-    unreadCount: 2,
-    status: "online",
-  },
-  {
-    id: "2",
-    name: "Bob Smith",
-    avatar:
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100",
-    lastMessage: "Are we still meeting today?",
-    lastMessageTime: "9:15 AM",
-    unreadCount: 0,
-    status: "offline",
-  },
-  {
-    id: "3",
-    name: "Carol White",
-    avatar:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100",
-    lastMessage: "Thanks for your help!",
-    lastMessageTime: "Yesterday",
-    unreadCount: 0,
-    status: "online",
-  },
-];
+import useGetOtherUsers from "@/hooks/useGetOtherUsers";
+import { useAppSelector } from "@/redux/hooks";
 
 interface ContactListProps {
   onSelectContact: (contact: Contact) => void;
@@ -46,6 +15,9 @@ const ContactList = ({
   onSelectContact,
   selectedContact,
 }: ContactListProps) => {
+  useGetOtherUsers();
+  const { otherUsers } = useAppSelector((state) => state.user);
+  if (!otherUsers) return;
   return (
     <div className="flex flex-col h-full bg-background">
       <div className="p-4 border-b border-border">
@@ -57,11 +29,11 @@ const ContactList = ({
       </div>
       <ScrollArea className="flex-1">
         <div className="p-2 space-y-1">
-          {MOCK_CONTACTS.map((contact) => (
+          {otherUsers.map((contact: Contact) => (
             <ContactCard
-              key={contact.id}
+              key={contact._id}
               contact={contact}
-              isSelected={selectedContact?.id === contact.id}
+              isSelected={selectedContact?._id === contact._id}
               onClick={() => onSelectContact(contact)}
             />
           ))}

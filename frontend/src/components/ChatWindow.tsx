@@ -64,16 +64,13 @@ const ChatWindow = ({ selectedContact }: ChatWindowProps) => {
         <div className="flex items-center gap-3">
           <Avatar>
             <AvatarImage
-              src={selectedContact.avatar}
-              alt={selectedContact.name}
+              src={selectedContact.profilePhoto}
+              alt={selectedContact.fullName}
             />
-            <AvatarFallback>{selectedContact.name.slice(0, 2)}</AvatarFallback>
+            <AvatarFallback>{selectedContact.fullName.slice(0, 2)}</AvatarFallback>
           </Avatar>
           <div>
-            <h2 className="font-semibold">{selectedContact.name}</h2>
-            <p className="text-sm text-muted-foreground">
-              {selectedContact.status === "online" ? "Online" : "Offline"}
-            </p>
+            <h2 className="font-semibold">{selectedContact.fullName}</h2>
           </div>
         </div>
         <div className="flex items-center gap-2">
