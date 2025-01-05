@@ -18,6 +18,9 @@ import {
 } from "@/components/ui/select";
 import { UserPlus } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -25,14 +28,45 @@ const Register = () => {
     username: "",
     password: "",
     confirmPassword: "",
-    gender: "",
+    gender: "male",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log("Register:", formData);
+    try {
+      const res = await axios.post(
+        `http://localhost:8080/api/v1/user/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        navigate("/login");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+      console.error(error);
+    }
+    setFormData({
+      fullName: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+      gender: "male",
+    });
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
       <Card className="w-full max-w-md">
@@ -55,6 +89,7 @@ const Register = () => {
                 id="fullName"
                 placeholder="Enter your full name"
                 value={formData.fullName}
+                autoComplete="name"
                 onChange={(e) =>
                   setFormData({ ...formData, fullName: e.target.value })
                 }
@@ -66,6 +101,7 @@ const Register = () => {
                 id="username"
                 placeholder="Choose a username"
                 value={formData.username}
+                autoComplete="username"
                 onChange={(e) =>
                   setFormData({ ...formData, username: e.target.value })
                 }
@@ -78,6 +114,7 @@ const Register = () => {
                 type="password"
                 placeholder="Create a password"
                 value={formData.password}
+                autoComplete="new-password"
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
@@ -90,6 +127,7 @@ const Register = () => {
                 type="password"
                 placeholder="Confirm your password"
                 value={formData.confirmPassword}
+                autoComplete="new-password"
                 onChange={(e) =>
                   setFormData({ ...formData, confirmPassword: e.target.value })
                 }

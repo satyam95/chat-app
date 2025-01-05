@@ -11,17 +11,46 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { KeyRound, LogIn } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { setAuthUser } from "@/redux/userSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login:", formData);
+    try {
+      const res = await axios.post(
+        `http://localhost:8080/api/v1/user/login`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      navigate("/");
+      dispatch(setAuthUser(res.data));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+      console.error(error);
+    }
+    setFormData({
+      username: "",
+      password: "",
+    });
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
