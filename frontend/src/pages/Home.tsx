@@ -1,19 +1,15 @@
 import ChatWindow from "@/components/ChatWindow";
 import ContactList from "@/components/ContactList";
-import { Contact } from "@/types";
-import { useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
 
 const Home = () => {
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const { selectedUser } = useAppSelector((state) => state.user);
   return (
     <div className="flex h-screen bg-background">
       <div className="hidden lg:block w-[350px] border-r border-border">
-        <ContactList
-          onSelectContact={setSelectedContact}
-          selectedContact={selectedContact}
-        />
+        <ContactList />
       </div>
-      <ChatWindow selectedContact={selectedContact} />
+      <ChatWindow selectedContact={selectedUser} />
     </div>
   );
 };

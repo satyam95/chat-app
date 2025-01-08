@@ -1,9 +1,8 @@
 import { Contact } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { MoreVertical, Phone, Send, Video } from "lucide-react";
+import { MoreVertical, Phone, Video } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
-import { Input } from "./ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,41 +10,33 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import MessageBubble from "./MessageBubble";
+import { useAppSelector } from "@/redux/hooks";
+import useGetMessages from "@/hooks/useGetMessages";
+import SendInput from "./SendInput";
 
-type Message = {
-    id: string;
-    content: string;
-    timestamp: string;
-    sender: "me" | "them";
-  };
-  
-  const MOCK_MESSAGES: Message[] = [
-    {
-      id: "1",
-      content: "Hey, how are you?",
-      timestamp: "10:30 AM",
-      sender: "them",
-    },
-    {
-      id: "2",
-      content: "I'm good, thanks! How about you?",
-      timestamp: "10:31 AM",
-      sender: "me",
-    },
-    {
-      id: "3",
-      content: "Great! Do you want to grab lunch later?",
-      timestamp: "10:32 AM",
-      sender: "them",
-    },
-  ];
-  
+export interface Message {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface ChatWindowProps {
   selectedContact: Contact | null;
 }
 
 const ChatWindow = ({ selectedContact }: ChatWindowProps) => {
+  useGetMessages();
+  const { messages } = useAppSelector((store) => store.message) as {
+    messages: Message[] | null;
+  };
+
+  const validMessages = (messages || []).filter(
+    (message): message is Message => !!message && typeof message._id === "string"
+  );
+
   if (!selectedContact) {
     return (
       <div className="flex-1 flex items-center justify-center bg-muted/5">
@@ -67,7 +58,9 @@ const ChatWindow = ({ selectedContact }: ChatWindowProps) => {
               src={selectedContact.profilePhoto}
               alt={selectedContact.fullName}
             />
-            <AvatarFallback>{selectedContact.fullName.slice(0, 2)}</AvatarFallback>
+            <AvatarFallback>
+              {selectedContact.fullName.slice(0, 2)}
+            </AvatarFallback>
           </Avatar>
           <div>
             <h2 className="font-semibold">{selectedContact.fullName}</h2>
@@ -96,26 +89,14 @@ const ChatWindow = ({ selectedContact }: ChatWindowProps) => {
           </DropdownMenu>
         </div>
       </div>
-
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4 max-w-3xl mx-auto">
-          {MOCK_MESSAGES.map((message) => (
-            <MessageBubble key={message.id} message={message} />
+          {validMessages.map((message) => (
+            <MessageBubble key={message._id} data={message} />
           ))}
         </div>
       </ScrollArea>
-
-      <div className="p-4 border-t border-border">
-        <form className="flex gap-2 max-w-3xl mx-auto">
-          <Input
-            placeholder="Type a message..."
-            className="flex-1 bg-muted/40"
-          />
-          <Button size="icon" className="shrink-0">
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
-      </div>
+      <SendInput />
     </div>
   );
 };

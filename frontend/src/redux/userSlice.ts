@@ -23,12 +23,14 @@ interface AuthUser {
 interface UserState {
   authUser: AuthUser | null;
   otherUsers: OtherUser[] | null;
+  selectedUser: OtherUser | null;
 }
 
 // Initial state with defined types
 const initialState: UserState = {
   authUser: null,
   otherUsers: null,
+  selectedUser: null,
 };
 
 const userSlice = createSlice({
@@ -41,8 +43,12 @@ const userSlice = createSlice({
     setOtherUsers: (state, action: PayloadAction<OtherUser[] | null>) => {
       state.otherUsers = action.payload;
     },
+    setSelectedUser: (state, action: PayloadAction<OtherUser | null>) => {
+      state.selectedUser = action.payload;
+    },
   },
 });
 
-export const { setAuthUser, setOtherUsers } = userSlice.actions;
+export const { setAuthUser, setOtherUsers, setSelectedUser } =
+  userSlice.actions;
 export default userSlice.reducer;

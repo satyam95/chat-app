@@ -1,7 +1,7 @@
 export interface Contact {
   createdAt: string;
   fullName: string;
-  gender: string;
+  gender: "male" | "female" | "other";
   profilePhoto: string;
   updatedAt: string;
   username: string;
