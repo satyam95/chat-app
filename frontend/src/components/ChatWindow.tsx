@@ -13,6 +13,7 @@ import MessageBubble from "./MessageBubble";
 import { useAppSelector } from "@/redux/hooks";
 import useGetMessages from "@/hooks/useGetMessages";
 import SendInput from "./SendInput";
+import useGetRealTimeMessage from "@/hooks/useGetRealTimeMessage";
 
 export interface Message {
   _id: string;
@@ -29,6 +30,8 @@ interface ChatWindowProps {
 
 const ChatWindow = ({ selectedContact }: ChatWindowProps) => {
   useGetMessages();
+  useGetRealTimeMessage();
+
   const { messages } = useAppSelector((store) => store.message) as {
     messages: Message[] | null;
   };

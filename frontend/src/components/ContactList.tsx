@@ -19,7 +19,6 @@ const ContactList = () => {
   const { otherUsers, selectedUser, authUser } = useAppSelector(
     (state) => state.user
   );
-
   const selectedUserHandler = (contact: Contact) => {
     dispatch(setSelectedUser(contact));
   };
