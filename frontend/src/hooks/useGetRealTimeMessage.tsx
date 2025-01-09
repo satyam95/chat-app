@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { setMessages } from "../redux/messageSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useSocket } from "@/context/socketContext";
 
 interface Message {
   _id: string;
@@ -12,20 +13,21 @@ interface Message {
 }
 
 const useGetRealTimeMessage = () => {
-  const { socket } = useAppSelector((store) => store.socket);
+  const socket = useSocket();
   const { messages } = useAppSelector((store) => store.message);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    socket?.on("newMessage", (newMessage: Message) => {
+    if (socket) {
+      socket.on("newMessage", (newMessage: Message) => {
         dispatch(setMessages([...(messages || []), newMessage]));
-    });
+      });
 
-    return () => {
-      socket?.off("newMessage");
-    };
-  }, [setMessages, messages]);
+      return () => {
+        socket.off("newMessage");
+      };
+    }
+  }, [dispatch, socket, messages]);
 };
 
 export default useGetRealTimeMessage;

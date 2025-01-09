@@ -1,16 +1,16 @@
-export interface Contact {
-  createdAt: string;
-  fullName: string;
-  gender: "male" | "female" | "other";
-  profilePhoto: string;
-  updatedAt: string;
-  username: string;
+export interface OtherUser {
   _id: string;
+  fullName: string;
+  username: string;
+  profilePhoto: string;
+  gender: "male" | "female" | "other";
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface Message {
-  id: string;
-  content: string;
-  timestamp: string;
-  sender: "me" | "them";
+export interface AuthUser {
+  _id: string;
+  username: string;
+  fullName: string;
+  profilePhoto: string;
 }
