@@ -9,7 +9,6 @@ export const sendMessage = async (req, res) => {
     const receiverId = req.params.id;
     const { message } = req.body;
 
-    // Validate senderId and receiverId
     if (
       !senderId ||
       !receiverId ||
@@ -19,7 +18,6 @@ export const sendMessage = async (req, res) => {
       return res.status(400).json({ error: "Invalid sender or receiver ID" });
     }
 
-    // Find or create conversation
     let gotConversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });
@@ -31,14 +29,12 @@ export const sendMessage = async (req, res) => {
       await gotConversation.save();
     }
 
-    // Create a new message
     const newMessage = await Message.create({
       senderId,
       receiverId,
       message,
     });
 
-    // Add message to conversation
     if (newMessage) {
       gotConversation.messages.push(newMessage._id);
       await gotConversation.save();
@@ -64,7 +60,6 @@ export const getMessage = async (req, res) => {
     const senderId = req.id;
     const receiverId = req.params.id;
 
-    // Validate senderId and receiverId
     if (
       !senderId ||
       !receiverId ||
@@ -74,7 +69,6 @@ export const getMessage = async (req, res) => {
       return res.status(400).json({ error: "Invalid sender or receiver ID" });
     }
 
-    // Find the conversation and populate messages
     const conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     }).populate("messages");
