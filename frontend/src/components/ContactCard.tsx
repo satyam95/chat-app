@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { Contact } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useAppSelector } from "@/redux/hooks";
+import { User } from "@/types";
 
 interface ContactCardProps {
-  contact: Contact;
+  contact: User;
   isSelected: boolean;
   onClick: () => void;
 }
@@ -32,13 +32,7 @@ const ContactCard = ({ contact, isSelected, onClick }: ContactCardProps) => {
       <div className="flex-1 min-w-0">
         <div className="flex justify-between items-center">
           <p className="font-medium truncate">{contact.fullName}</p>
-          {/* <span className="text-xs text-muted-foreground shrink-0 ml-2">
-            {contact.lastMessageTime}
-          </span> */}
         </div>
-        {/* <p className="text-sm text-muted-foreground truncate">
-          {contact.lastMessage}
-        </p> */}
       </div>
     </div>
   );

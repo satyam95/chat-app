@@ -6,20 +6,26 @@ import { useEffect } from "react";
 const useGetMessages = () => {
   const { selectedUser } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
+    if (!selectedUser?._id) {
+      return;
+    }
+
     const fetchMessages = async () => {
       try {
         axios.defaults.withCredentials = true;
-        const res = await axios.get(`http://localhost:8080/api/v1/message/${selectedUser?._id}`);
-        console.log(res.data)
+        const res = await axios.get(
+          `http://localhost:8080/api/v1/message/${selectedUser._id}`
+        );
         dispatch(setMessages(res.data));
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching messages:", error);
       }
     };
+
     fetchMessages();
-  }, [selectedUser?._id, setMessages]);
+  }, [selectedUser?._id, dispatch]);
 };
 
 export default useGetMessages;

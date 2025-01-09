@@ -1,10 +1,10 @@
-import { AuthUser, OtherUser } from "@/types";
+import { AuthUser, User } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
   authUser: AuthUser | null;
-  otherUsers: OtherUser[] | null;
-  selectedUser: OtherUser | null;
+  otherUsers: User[] | null;
+  selectedUser: User | null;
   onlineUsers: string[] | null;
 }
 
@@ -22,10 +22,10 @@ const userSlice = createSlice({
     setAuthUser: (state, action: PayloadAction<AuthUser | null>) => {
       state.authUser = action.payload;
     },
-    setOtherUsers: (state, action: PayloadAction<OtherUser[] | null>) => {
+    setOtherUsers: (state, action: PayloadAction<User[] | null>) => {
       state.otherUsers = action.payload;
     },
-    setSelectedUser: (state, action: PayloadAction<OtherUser | null>) => {
+    setSelectedUser: (state, action: PayloadAction<User | null>) => {
       state.selectedUser = action.payload;
     },
     setOnlineUsers: (state, action: PayloadAction<string[] | null>) => {

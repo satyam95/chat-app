@@ -1,4 +1,3 @@
-import { Contact } from "@/types";
 import { LogOut, Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
@@ -12,6 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { setMessages } from "@/redux/messageSlice";
+import { User } from "@/types";
 
 const ContactList = () => {
   useGetOtherUsers();
@@ -19,7 +19,7 @@ const ContactList = () => {
   const { otherUsers, selectedUser, authUser } = useAppSelector(
     (state) => state.user
   );
-  const selectedUserHandler = (contact: Contact) => {
+  const selectedUserHandler = (contact: User) => {
     dispatch(setSelectedUser(contact));
   };
 
@@ -51,7 +51,7 @@ const ContactList = () => {
       </div>
       <ScrollArea className="flex-1">
         <div className="p-2 space-y-1">
-          {otherUsers.map((contact: Contact) => (
+          {otherUsers.map((contact: User) => (
             <ContactCard
               key={contact._id}
               contact={contact}

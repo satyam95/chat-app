@@ -1,4 +1,4 @@
-export interface OtherUser {
+export interface User {
   _id: string;
   fullName: string;
   username: string;
@@ -13,4 +13,13 @@ export interface AuthUser {
   username: string;
   fullName: string;
   profilePhoto: string;
+}
+
+export interface Message {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
 }

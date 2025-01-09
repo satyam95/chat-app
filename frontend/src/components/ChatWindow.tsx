@@ -1,4 +1,3 @@
-import { Contact } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { MoreVertical, Phone, Video } from "lucide-react";
@@ -14,21 +13,15 @@ import { useAppSelector } from "@/redux/hooks";
 import useGetMessages from "@/hooks/useGetMessages";
 import SendInput from "./SendInput";
 import useGetRealTimeMessage from "@/hooks/useGetRealTimeMessage";
+import { Message, User } from "@/types";
 
-export interface Message {
-  _id: string;
-  senderId: string;
-  receiverId: string;
-  message: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 interface ChatWindowProps {
-  selectedContact: Contact | null;
+  selectedContact: User | null;
 }
 
 const ChatWindow = ({ selectedContact }: ChatWindowProps) => {
+  
   useGetMessages();
   useGetRealTimeMessage();
 

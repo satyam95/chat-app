@@ -72,6 +72,7 @@ const Login = () => {
                 id="username"
                 placeholder="Enter your username"
                 value={formData.username}
+                autoComplete="username"
                 onChange={(e) =>
                   setFormData({ ...formData, username: e.target.value })
                 }
@@ -84,6 +85,7 @@ const Login = () => {
                 type="password"
                 placeholder="Enter your password"
                 value={formData.password}
+                autoComplete="current-password"
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }

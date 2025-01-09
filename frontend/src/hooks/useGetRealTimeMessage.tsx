@@ -2,15 +2,7 @@ import { useEffect } from "react";
 import { setMessages } from "../redux/messageSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useSocket } from "@/context/socketContext";
-
-interface Message {
-  _id: string;
-  senderId: string;
-  receiverId: string;
-  message: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Message } from "@/types";
 
 const useGetRealTimeMessage = () => {
   const socket = useSocket();

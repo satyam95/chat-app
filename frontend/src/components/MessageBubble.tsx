@@ -1,15 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
+import { Message } from "@/types";
 import { useEffect, useRef } from "react";
-
-export interface Message {
-  _id: string;
-  senderId: string;
-  receiverId: string;
-  message: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 interface MessageBubbleProps {
   data: Message;
